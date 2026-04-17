@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A Compendium of Adjectives</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
-@import url('./assets/fonts/local-fonts.css');
-
 :root {
   --bg: #FAF7F0;
   --bg-surface: #FFFFFF;
@@ -21,6 +22,7 @@
   --h-def: #A32D2D;
   --h-mean: #3B6D11;
   --h-exc: #854F0B;
+  --seg-stroke: #FAF7F0;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -38,6 +40,7 @@
     --h-def: #F09595;
     --h-mean: #97C459;
     --h-exc: #EF9F27;
+    --seg-stroke: #1B1814;
   }
 }
 
@@ -78,7 +81,6 @@ body {
 
 main { min-width: 0; max-width: 820px; }
 
-/* Typography */
 h1, h2, h3 { font-family: 'Fraunces', 'Times New Roman', serif; font-weight: 500; letter-spacing: -0.01em; }
 
 header.doc-head {
@@ -138,7 +140,6 @@ h2 .num {
   font-style: italic;
 }
 
-/* Table of contents */
 aside.toc {
   position: sticky;
   top: 2rem;
@@ -184,7 +185,6 @@ aside.toc {
 }
 .toc a:hover, .toc a:focus { color: var(--accent); }
 
-/* Search */
 .search-wrap {
   margin: 1.5rem 0 2.5rem;
   position: relative;
@@ -227,6 +227,152 @@ aside.toc {
   margin-top: 0.4rem;
   font-style: italic;
   min-height: 1rem;
+}
+
+/* Plutchik wheel */
+.wheel-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.wheel-svg {
+  width: 100%;
+  max-width: 540px;
+  height: auto;
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.seg {
+  cursor: pointer;
+  transition: filter 0.15s;
+  stroke-width: 0.5;
+}
+.seg:hover { filter: brightness(1.08); }
+.seg.sel { stroke-width: 2.5; stroke: var(--accent); }
+
+.emo-lbl {
+  font-family: 'Fraunces', serif;
+  font-size: 15px;
+  font-weight: 500;
+  fill: var(--text);
+  pointer-events: none;
+  text-anchor: middle;
+  letter-spacing: -0.01em;
+}
+
+.dyad-g { cursor: pointer; }
+.dyad-g:hover .dyad-rect { stroke: var(--accent); }
+.dyad-rect {
+  fill: var(--bg-surface);
+  stroke: var(--border-strong);
+  stroke-width: 0.5;
+  transition: stroke 0.15s, stroke-width 0.15s;
+}
+.dyad-rect.sel {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+.dyad-lbl {
+  font-family: 'Fraunces', serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  fill: var(--text);
+  pointer-events: none;
+  text-anchor: middle;
+}
+
+.wheel-center-dot {
+  fill: var(--bg-surface);
+  stroke: var(--border);
+  stroke-width: 0.5;
+}
+.wheel-center-lbl {
+  font-family: 'Fraunces', serif;
+  font-size: 10px;
+  font-weight: 500;
+  fill: var(--text-muted);
+  pointer-events: none;
+  text-anchor: middle;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.wheel-info {
+  width: 100%;
+  padding: 1.3rem 1.5rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  min-height: 170px;
+  box-sizing: border-box;
+}
+
+.wheel-info-default { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
+.wheel-info-default strong { color: var(--text); font-weight: 500; font-family: 'Fraunces', serif; }
+.wheel-info-default em { color: var(--text); }
+
+.wheel-info-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin-bottom: 0.15rem;
+  flex-wrap: wrap;
+}
+.wheel-info-name {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.1;
+}
+.wheel-info-tag {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+.wheel-info-formula {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin: 0.2rem 0 0.8rem;
+}
+.wheel-info-section {
+  margin-top: 0.8rem;
+}
+.wheel-info-section-lbl {
+  font-family: 'Fraunces', serif;
+  font-size: 0.72rem;
+  color: var(--text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  margin-bottom: 0.15rem;
+}
+.wheel-info-adj {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.ring-legend {
+  display: flex;
+  gap: 1.4rem;
+  margin-top: 0.9rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+  font-style: italic;
+}
+.ring-legend span { display: inline-flex; align-items: center; }
+.ring-legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 0.4rem;
 }
 
 /* Tables */
@@ -283,7 +429,6 @@ aside.toc {
   font-size: 0.95rem;
 }
 
-/* Card grid */
 .cardgrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -296,13 +441,6 @@ aside.toc {
   border: 1px solid var(--border);
   border-radius: 3px;
   padding: 0.9rem 1.05rem;
-}
-.vcard .formula {
-  font-size: 0.72rem;
-  color: var(--text-subtle);
-  font-style: italic;
-  font-family: 'Fraunces', serif;
-  letter-spacing: 0.02em;
 }
 .vcard .nm {
   font-weight: 500;
@@ -324,10 +462,6 @@ aside.toc {
   color: var(--text);
 }
 
-/* Hidden section (filter) */
-.v-hidden { display: none; }
-
-/* Highlight */
 .hl {
   background: var(--hl);
   border-radius: 2px;
@@ -336,7 +470,6 @@ aside.toc {
   font-weight: 500;
 }
 
-/* Footer */
 footer.doc-foot {
   margin-top: 5rem;
   padding-top: 2rem;
@@ -348,7 +481,6 @@ footer.doc-foot {
   max-width: 680px;
 }
 
-/* Responsive */
 @media (max-width: 960px) {
   .page-wrap { grid-template-columns: 1fr; gap: 0; }
   aside.toc {
@@ -373,6 +505,8 @@ footer.doc-foot {
   .vax .nm { font-size: 0.9rem; }
   .vax .sub { font-size: 0.7rem; }
   .toc ol { columns: 1; }
+  .emo-lbl { font-size: 13px; }
+  .dyad-lbl { font-size: 10.5px; }
 }
 
 @media (max-width: 480px) {
@@ -380,7 +514,6 @@ footer.doc-foot {
   .vtable.cols-3 { grid-template-columns: 100px repeat(2, minmax(0, 1fr)); font-size: 0.8rem; }
 }
 
-/* Print */
 @media print {
   body { font-size: 10.5pt; color: black; background: white; padding: 1cm; }
   aside.toc, .search-wrap, .skip-link { display: none; }
@@ -389,6 +522,7 @@ footer.doc-foot {
   h2 { font-size: 14pt; page-break-after: avoid; margin-top: 1.5em; }
   .vtable, .cardgrid { page-break-inside: avoid; break-inside: avoid; }
   .vcard { break-inside: avoid; }
+  .wheel-info { background: white; border: 1px solid #999; }
   a { color: black; text-decoration: none; }
 }
 </style>
@@ -404,7 +538,7 @@ footer.doc-foot {
   <h1>A Compendium of Adjectives</h1>
   <p class="subtitle">Systematic vocabulary, organized by semantic domain</p>
   <div class="preamble">
-    <p>Adjectives cluster into families. This compendium maps nine of them — emotion, character, aesthetic, epistemic, social, sensory, tonal — into tables that expose internal structure: intensity scales, virtue/vice poles, Aristotelian triads, blended dyads.</p>
+    <p>Adjectives cluster into families. This compendium maps seven of them — emotion, character, aesthetic, epistemic, social, sensory, tonal — into tables and one interactive wheel that expose internal structure: intensity scales, virtue/vice poles, Aristotelian triads, blended dyads.</p>
     <p>No claim to exhaustiveness. Boundaries between categories are fuzzy, and many adjectives belong to more than one register. Treat this as scaffolding, not a closed taxonomy.</p>
   </div>
   <div class="search-wrap">
@@ -414,189 +548,31 @@ footer.doc-foot {
   </div>
 </header>
 
-<section id="emotions-experiencer">
-  <h2><span class="num">I</span>Emotion — the experiencer</h2>
-  <p class="section-intro">Adjectives describing the person who <em>feels</em> the emotion, arranged by Plutchik's eight primary emotions and three intensity levels. This is the core register most vocabulary projects target.</p>
-  <div class="vtable cols-4">
-    <div class="vhdr">Emotion</div>
-    <div class="vhdr">Mild</div>
-    <div class="vhdr">Moderate</div>
-    <div class="vhdr">Intense</div>
-
-    <div class="vax" style="--ax-bg: #FAEEDA; --ax-txt: #633806; --ax-sub: #854F0B;">
-      <div class="nm">Joy</div><div class="sub">pleasure, contentment</div>
-    </div>
-    <div class="vcell">content, cheerful, pleased, glad, gratified</div>
-    <div class="vcell">happy, joyful, merry, gleeful, lighthearted</div>
-    <div class="vcell">ecstatic, elated, euphoric, jubilant, rapturous, exultant</div>
-
-    <div class="vax" style="--ax-bg: #E1F5EE; --ax-txt: #085041; --ax-sub: #0F6E56;">
-      <div class="nm">Trust</div><div class="sub">acceptance, confidence</div>
-    </div>
-    <div class="vcell">accepting, receptive, tolerant, amenable</div>
-    <div class="vcell">trusting, confident, assured, reliant</div>
-    <div class="vcell">devoted, reverent, adoring, unwavering</div>
-
-    <div class="vax" style="--ax-bg: #EEEDFE; --ax-txt: #3C3489; --ax-sub: #534AB7;">
-      <div class="nm">Fear</div><div class="sub">apprehension, dread</div>
-    </div>
-    <div class="vcell">uneasy, apprehensive, wary, jittery, skittish</div>
-    <div class="vcell">afraid, scared, anxious, alarmed, fearful</div>
-    <div class="vcell">terrified, petrified, panicked, aghast, horror-stricken</div>
-
-    <div class="vax" style="--ax-bg: #E6F1FB; --ax-txt: #0C447C; --ax-sub: #185FA5;">
-      <div class="nm">Surprise</div><div class="sub">unexpectedness</div>
-    </div>
-    <div class="vcell">curious, intrigued, attentive, struck</div>
-    <div class="vcell">surprised, startled, taken aback, disconcerted</div>
-    <div class="vcell">astonished, astounded, flabbergasted, dumbfounded, stupefied</div>
-
-    <div class="vax" style="--ax-bg: #F1EFE8; --ax-txt: #444441; --ax-sub: #5F5E5A;">
-      <div class="nm">Sadness</div><div class="sub">sorrow, loss</div>
-    </div>
-    <div class="vcell">wistful, pensive, melancholic, subdued, downcast</div>
-    <div class="vcell">sad, sorrowful, gloomy, dejected, forlorn</div>
-    <div class="vcell">desolate, inconsolable, heartbroken, anguished, bereft</div>
-
-    <div class="vax" style="--ax-bg: #EAF3DE; --ax-txt: #27500A; --ax-sub: #3B6D11;">
-      <div class="nm">Disgust</div><div class="sub">aversion, rejection</div>
-    </div>
-    <div class="vcell">displeased, put-off, disapproving, dismissive</div>
-    <div class="vcell">disgusted, revolted, contemptuous, scornful</div>
-    <div class="vcell">repulsed, loathing, nauseated, abhorring</div>
-
-    <div class="vax" style="--ax-bg: #FCEBEB; --ax-txt: #791F1F; --ax-sub: #A32D2D;">
-      <div class="nm">Anger</div><div class="sub">frustration, aggression</div>
-    </div>
-    <div class="vcell">annoyed, irritated, peeved, vexed, miffed</div>
-    <div class="vcell">angry, indignant, incensed, resentful, aggrieved</div>
-    <div class="vcell">furious, livid, enraged, irate, apoplectic, wrathful</div>
-
-    <div class="vax" style="--ax-bg: #FAECE7; --ax-txt: #712B13; --ax-sub: #993C1D;">
-      <div class="nm">Anticipation</div><div class="sub">expectation, interest</div>
-    </div>
-    <div class="vcell">mindful, alert, watchful, engaged</div>
-    <div class="vcell">eager, expectant, hopeful, keen</div>
-    <div class="vcell">avid, zealous, fervent, impatient, rapt</div>
-  </div>
-</section>
-
-<section id="emotions-stimulus">
-  <h2><span class="num">II</span>Emotion — the stimulus</h2>
-  <p class="section-intro">The same eight emotions, flipped to describe what <em>causes</em> the feeling rather than what feels it. For every "afraid," a "terrifying" — and the intensity scale carries across.</p>
-  <div class="vtable cols-4">
-    <div class="vhdr">Causes…</div>
-    <div class="vhdr">Mild</div>
-    <div class="vhdr">Moderate</div>
-    <div class="vhdr">Intense</div>
-
-    <div class="vax" style="--ax-bg: #FAEEDA; --ax-txt: #633806; --ax-sub: #854F0B;">
-      <div class="nm">Joy</div><div class="sub">pleasing</div>
-    </div>
-    <div class="vcell">pleasant, agreeable, nice, enjoyable</div>
-    <div class="vcell">delightful, heartwarming, uplifting, gratifying</div>
-    <div class="vcell">exhilarating, blissful, sublime, intoxicating</div>
-
-    <div class="vax" style="--ax-bg: #E1F5EE; --ax-txt: #085041; --ax-sub: #0F6E56;">
-      <div class="nm">Trust</div><div class="sub">trust-inspiring</div>
-    </div>
-    <div class="vcell">credible, plausible, sound, fair</div>
-    <div class="vcell">trustworthy, dependable, solid, reliable</div>
-    <div class="vcell">unimpeachable, inviolable, sacrosanct</div>
-
-    <div class="vax" style="--ax-bg: #EEEDFE; --ax-txt: #3C3489; --ax-sub: #534AB7;">
-      <div class="nm">Fear</div><div class="sub">fear-inducing</div>
-    </div>
-    <div class="vcell">unsettling, disquieting, worrying, troubling</div>
-    <div class="vcell">frightening, alarming, menacing, foreboding</div>
-    <div class="vcell">terrifying, horrifying, bloodcurdling, harrowing</div>
-
-    <div class="vax" style="--ax-bg: #E6F1FB; --ax-txt: #0C447C; --ax-sub: #185FA5;">
-      <div class="nm">Surprise</div><div class="sub">surprise-inducing</div>
-    </div>
-    <div class="vcell">unexpected, curious, peculiar, odd</div>
-    <div class="vcell">striking, startling, remarkable, arresting</div>
-    <div class="vcell">astonishing, staggering, mind-boggling, jaw-dropping</div>
-
-    <div class="vax" style="--ax-bg: #F1EFE8; --ax-txt: #444441; --ax-sub: #5F5E5A;">
-      <div class="nm">Sadness</div><div class="sub">sadness-inducing</div>
-    </div>
-    <div class="vcell">poignant, bittersweet, wistful, plaintive</div>
-    <div class="vcell">sorrowful, mournful, doleful, dismal, sombre</div>
-    <div class="vcell">heartbreaking, tragic, devastating, gut-wrenching</div>
-
-    <div class="vax" style="--ax-bg: #EAF3DE; --ax-txt: #27500A; --ax-sub: #3B6D11;">
-      <div class="nm">Disgust</div><div class="sub">disgust-inducing</div>
-    </div>
-    <div class="vcell">unpleasant, off-putting, distasteful, unsavoury</div>
-    <div class="vcell">disgusting, revolting, repellent, sickening</div>
-    <div class="vcell">repulsive, nauseating, loathsome, abhorrent, vile</div>
-
-    <div class="vax" style="--ax-bg: #FCEBEB; --ax-txt: #791F1F; --ax-sub: #A32D2D;">
-      <div class="nm">Anger</div><div class="sub">anger-inducing</div>
-    </div>
-    <div class="vcell">annoying, irksome, vexatious, bothersome</div>
-    <div class="vcell">infuriating, maddening, exasperating, galling</div>
-    <div class="vcell">outrageous, incendiary, inflammatory, egregious</div>
-
-    <div class="vax" style="--ax-bg: #FAECE7; --ax-txt: #712B13; --ax-sub: #993C1D;">
-      <div class="nm">Anticipation</div><div class="sub">interest-inducing</div>
-    </div>
-    <div class="vcell">intriguing, promising, curious, compelling</div>
-    <div class="vcell">enticing, tantalizing, alluring, tempting</div>
-    <div class="vcell">irresistible, electrifying, thrilling, riveting</div>
-  </div>
-</section>
-
-<section id="dyads">
-  <h2><span class="num">III</span>Emotion — the dyads</h2>
-  <p class="section-intro">Blends of two adjacent primary emotions. Joy plus trust makes love; fear plus surprise makes awe; disgust plus anger makes contempt. These are where the compound vocabulary lives.</p>
-  <div class="cardgrid">
-    <div class="vcard">
-      <div class="formula">joy + trust</div>
-      <div class="nm">Love</div>
-      <div class="adj">loving, affectionate, tender, fond, smitten, besotted, enamored, devoted, adoring</div>
-    </div>
-    <div class="vcard">
-      <div class="formula">trust + fear</div>
-      <div class="nm">Submission</div>
-      <div class="adj">submissive, deferential, meek, compliant, obedient, yielding, acquiescent</div>
-    </div>
-    <div class="vcard">
-      <div class="formula">fear + surprise</div>
-      <div class="nm">Awe</div>
-      <div class="adj">awestruck, reverent, spellbound, dumbstruck, overwhelmed, humbled</div>
-    </div>
-    <div class="vcard">
-      <div class="formula">surprise + sadness</div>
-      <div class="nm">Disapproval</div>
-      <div class="adj">disillusioned, disappointed, let-down, crestfallen, dismayed, disheartened</div>
-    </div>
-    <div class="vcard">
-      <div class="formula">sadness + disgust</div>
-      <div class="nm">Remorse</div>
-      <div class="adj">remorseful, rueful, regretful, contrite, penitent, guilt-ridden, ashamed</div>
-    </div>
-    <div class="vcard">
-      <div class="formula">disgust + anger</div>
-      <div class="nm">Contempt</div>
-      <div class="adj">contemptuous, disdainful, scornful, derisive, sneering, supercilious</div>
-    </div>
-    <div class="vcard">
-      <div class="formula">anger + anticipation</div>
-      <div class="nm">Aggressiveness</div>
-      <div class="adj">assertive, pugnacious, combative, belligerent, defiant, confrontational</div>
-    </div>
-    <div class="vcard">
-      <div class="formula">anticipation + joy</div>
-      <div class="nm">Optimism</div>
-      <div class="adj">optimistic, hopeful, upbeat, sanguine, buoyant, bullish</div>
+<section id="emotions">
+  <h2><span class="num">I</span>Emotion — Plutchik's wheel</h2>
+  <p class="section-intro">Eight primary emotions as opposing pairs, each petal deepening toward the center as intensity grows. The eight gaps between petals mark the <em>dyads</em> — compound emotions formed by blending adjacent primaries. Tap a petal to see both the adjectives for <em>feeling</em> the emotion and the adjectives describing what <em>causes</em> it, at that intensity. Tap a dyad pill for the compound vocabulary.</p>
+  <div class="wheel-container">
+    <svg id="wheel" class="wheel-svg" viewBox="0 0 680 680" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>Plutchik's wheel of emotions</title>
+      <desc>Eight primary emotions arranged as petals around a circle, each with three intensity rings from mild outer to intense inner, with eight dyads labeled in pills between adjacent petal pairs.</desc>
+    </svg>
+    <div class="wheel-info" id="wheel-info">
+      <div class="wheel-info-default" id="wheel-info-default">
+        <strong>Plutchik's wheel</strong> arranges eight primary emotions as opposing pairs — joy across from sadness, trust across from disgust, fear across from anger, surprise across from anticipation. Intensity deepens toward the center: <em>annoyed</em> on the outer ring becomes <em>angry</em>, then <em>livid</em>. The pills sitting in the gaps between petals are the dyads — <em>love</em> is the blend of joy and trust, <em>contempt</em> the blend of disgust and anger.
+        <div class="ring-legend">
+          <span><span class="ring-legend-dot" style="background:#FAEEDA"></span>Mild — outer</span>
+          <span><span class="ring-legend-dot" style="background:#EF9F27"></span>Moderate — middle</span>
+          <span><span class="ring-legend-dot" style="background:#BA7517"></span>Intense — inner</span>
+        </div>
+        <p style="margin-top: 0.8rem; font-size: 0.88rem;">Tap any petal or dyad to reveal its adjectives.</p>
+      </div>
+      <div id="wheel-info-content" style="display:none;"></div>
     </div>
   </div>
 </section>
 
 <section id="character">
-  <h2><span class="num">IV</span>Character — the Aristotelian triad</h2>
+  <h2><span class="num">II</span>Character — the Aristotelian triad</h2>
   <p class="section-intro">Stable dispositions, not passing states. Arranged as Aristotelian triads: deficiency and excess are both vices, with the virtue holding the middle. For some axes, the excess form is culturally specific to English; treat those cells lightly.</p>
   <div class="vtable cols-4">
     <div class="vhdr">Axis</div>
@@ -691,7 +667,7 @@ footer.doc-foot {
 </section>
 
 <section id="aesthetic">
-  <h2><span class="num">V</span>Aesthetic register</h2>
+  <h2><span class="num">III</span>Aesthetic register</h2>
   <p class="section-intro">Style, taste, sensibility. These don't pair into clean opposites — minimalism and ornateness are poles, but <em>kitsch</em> has no opposite — so they're arranged as a grid of moods rather than a spectrum.</p>
   <div class="cardgrid">
     <div class="vcard">
@@ -748,7 +724,7 @@ footer.doc-foot {
 </section>
 
 <section id="epistemic">
-  <h2><span class="num">VI</span>Epistemic stance</h2>
+  <h2><span class="num">IV</span>Epistemic stance</h2>
   <p class="section-intro">How a person holds beliefs — their posture toward evidence, certainty, and inquiry. Several of these axes are genuinely Aristotelian (skepticism balanced between credulity and cynicism) but the binary form is more commonly how they're invoked.</p>
   <div class="vtable cols-3">
     <div class="vhdr">Axis</div>
@@ -790,7 +766,7 @@ footer.doc-foot {
 </section>
 
 <section id="social">
-  <h2><span class="num">VII</span>Social register</h2>
+  <h2><span class="num">V</span>Social register</h2>
   <p class="section-intro">Markers of sophistication, manner, and cultural polish. These carry class and cultural weight — the adjectives exist and describe real social phenomena, but the poles aren't always morally weighted the way virtues are.</p>
   <div class="vtable cols-3">
     <div class="vhdr">Axis</div>
@@ -832,7 +808,7 @@ footer.doc-foot {
 </section>
 
 <section id="sensory">
-  <h2><span class="num">VIII</span>Physical and sensory</h2>
+  <h2><span class="num">VI</span>Physical and sensory</h2>
   <p class="section-intro">The tactile world: brightness, volume, texture, temperature. These are mostly neutral-descriptive — no moral valence — but they carry the evocative weight a writer needs to make a scene feel real.</p>
   <div class="vtable cols-3">
     <div class="vhdr">Axis</div>
@@ -890,7 +866,7 @@ footer.doc-foot {
 </section>
 
 <section id="tonal">
-  <h2><span class="num">IX</span>Tonal and dramatic</h2>
+  <h2><span class="num">VII</span>Tonal and dramatic</h2>
   <p class="section-intro">Adjectives describing <em>situations and narratives</em> rather than things or people. This is how writers describe the shape of events — tragic, farcical, ominous, sublime. Bridges into aesthetic territory at the <em>sublime</em> / <em>epic</em> end.</p>
   <div class="cardgrid">
     <div class="vcard">
@@ -947,7 +923,7 @@ footer.doc-foot {
 </section>
 
 <footer class="doc-foot">
-  <p>Nine tables. Roughly 900 adjectives. Boundaries are fuzzy by design — <em>warm</em> belongs to emotion and character; <em>sublime</em> bridges aesthetic and tonal; <em>gauche</em> shows up in three registers. The overlaps are features of the vocabulary, not defects of the taxonomy.</p>
+  <p>Six tables and one interactive wheel. Roughly 900 adjectives. Boundaries are fuzzy by design — <em>warm</em> belongs to emotion and character; <em>sublime</em> bridges aesthetic and tonal; <em>gauche</em> shows up in three registers. The overlaps are features of the vocabulary, not defects of the taxonomy.</p>
 </footer>
 
 </main>
@@ -955,9 +931,7 @@ footer.doc-foot {
 <aside class="toc" aria-label="Table of contents">
   <div class="toc-label">Contents</div>
   <ol>
-    <li><a href="#emotions-experiencer">Emotion — the experiencer</a></li>
-    <li><a href="#emotions-stimulus">Emotion — the stimulus</a></li>
-    <li><a href="#dyads">Emotion — the dyads</a></li>
+    <li><a href="#emotions">Emotion — Plutchik's wheel</a></li>
     <li><a href="#character">Character — the Aristotelian triad</a></li>
     <li><a href="#aesthetic">Aesthetic register</a></li>
     <li><a href="#epistemic">Epistemic stance</a></li>
@@ -968,6 +942,292 @@ footer.doc-foot {
 </aside>
 
 </div>
+
+<script>
+(function () {
+  const svg = document.getElementById('wheel');
+  const infoDefault = document.getElementById('wheel-info-default');
+  const infoContent = document.getElementById('wheel-info-content');
+  const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  const cx = 340, cy = 340;
+  const r = [80, 145, 215, 260];
+
+  const emotions = [
+    { name: 'Joy', angle: 0,
+      l: ['#FAEEDA','#EF9F27','#BA7517'], d: ['#633806','#BA7517','#EF9F27'],
+      ex: [['content','cheerful','pleased','glad','gratified'],
+           ['happy','joyful','merry','gleeful','lighthearted'],
+           ['ecstatic','elated','euphoric','jubilant','rapturous','exultant']],
+      st: [['pleasant','agreeable','nice','enjoyable'],
+           ['delightful','heartwarming','uplifting','gratifying'],
+           ['exhilarating','blissful','sublime','intoxicating']] },
+    { name: 'Trust', angle: 45,
+      l: ['#E1F5EE','#5DCAA5','#1D9E75'], d: ['#085041','#1D9E75','#5DCAA5'],
+      ex: [['accepting','receptive','tolerant','amenable'],
+           ['trusting','confident','assured','reliant'],
+           ['devoted','reverent','adoring','unwavering']],
+      st: [['credible','plausible','sound','fair'],
+           ['trustworthy','dependable','solid','reliable'],
+           ['unimpeachable','inviolable','sacrosanct']] },
+    { name: 'Fear', angle: 90,
+      l: ['#EEEDFE','#AFA9EC','#7F77DD'], d: ['#3C3489','#7F77DD','#AFA9EC'],
+      ex: [['uneasy','apprehensive','wary','jittery','skittish'],
+           ['afraid','scared','anxious','alarmed','fearful'],
+           ['terrified','petrified','panicked','aghast','horror-stricken']],
+      st: [['unsettling','disquieting','worrying','troubling'],
+           ['frightening','alarming','menacing','foreboding'],
+           ['terrifying','horrifying','bloodcurdling','harrowing']] },
+    { name: 'Surprise', angle: 135,
+      l: ['#E6F1FB','#85B7EB','#378ADD'], d: ['#0C447C','#378ADD','#85B7EB'],
+      ex: [['curious','intrigued','attentive','struck'],
+           ['surprised','startled','taken aback','disconcerted'],
+           ['astonished','astounded','flabbergasted','dumbfounded','stupefied']],
+      st: [['unexpected','curious','peculiar','odd'],
+           ['striking','startling','remarkable','arresting'],
+           ['astonishing','staggering','mind-boggling','jaw-dropping']] },
+    { name: 'Sadness', angle: 180,
+      l: ['#F1EFE8','#B4B2A9','#888780'], d: ['#444441','#888780','#B4B2A9'],
+      ex: [['wistful','pensive','melancholic','subdued','downcast'],
+           ['sad','sorrowful','gloomy','dejected','forlorn'],
+           ['desolate','inconsolable','heartbroken','anguished','bereft']],
+      st: [['poignant','bittersweet','wistful','plaintive'],
+           ['sorrowful','mournful','doleful','dismal','sombre'],
+           ['heartbreaking','tragic','devastating','gut-wrenching']] },
+    { name: 'Disgust', angle: 225,
+      l: ['#EAF3DE','#97C459','#639922'], d: ['#27500A','#639922','#97C459'],
+      ex: [['displeased','put-off','disapproving','dismissive'],
+           ['disgusted','revolted','contemptuous','scornful'],
+           ['repulsed','loathing','nauseated','abhorring']],
+      st: [['unpleasant','off-putting','distasteful','unsavoury'],
+           ['disgusting','revolting','repellent','sickening'],
+           ['repulsive','nauseating','loathsome','abhorrent','vile']] },
+    { name: 'Anger', angle: 270,
+      l: ['#FCEBEB','#F09595','#E24B4A'], d: ['#791F1F','#E24B4A','#F09595'],
+      ex: [['annoyed','irritated','peeved','vexed','miffed'],
+           ['angry','indignant','incensed','resentful','aggrieved'],
+           ['furious','livid','enraged','irate','apoplectic','wrathful']],
+      st: [['annoying','irksome','vexatious','bothersome'],
+           ['infuriating','maddening','exasperating','galling'],
+           ['outrageous','incendiary','inflammatory','egregious']] },
+    { name: 'Anticipation', angle: 315,
+      l: ['#FAECE7','#F0997B','#D85A30'], d: ['#712B13','#D85A30','#F0997B'],
+      ex: [['mindful','alert','watchful','engaged'],
+           ['eager','expectant','hopeful','keen'],
+           ['avid','zealous','fervent','impatient','rapt']],
+      st: [['intriguing','promising','curious','compelling'],
+           ['enticing','tantalizing','alluring','tempting'],
+           ['irresistible','electrifying','thrilling','riveting']] }
+  ];
+
+  const dyads = [
+    { name: 'Love', formula: 'joy + trust', angle: 22.5,
+      adj: ['loving','affectionate','tender','fond','smitten','besotted','enamored','devoted','adoring'] },
+    { name: 'Submission', formula: 'trust + fear', angle: 67.5,
+      adj: ['submissive','deferential','meek','compliant','obedient','yielding','acquiescent'] },
+    { name: 'Awe', formula: 'fear + surprise', angle: 112.5,
+      adj: ['awestruck','reverent','spellbound','dumbstruck','overwhelmed','humbled'] },
+    { name: 'Disapproval', formula: 'surprise + sadness', angle: 157.5,
+      adj: ['disillusioned','disappointed','let-down','crestfallen','dismayed','disheartened'] },
+    { name: 'Remorse', formula: 'sadness + disgust', angle: 202.5,
+      adj: ['remorseful','rueful','regretful','contrite','penitent','guilt-ridden','ashamed'] },
+    { name: 'Contempt', formula: 'disgust + anger', angle: 247.5,
+      adj: ['contemptuous','disdainful','scornful','derisive','sneering','supercilious'] },
+    { name: 'Aggressiveness', formula: 'anger + anticipation', angle: 292.5,
+      adj: ['assertive','pugnacious','combative','belligerent','defiant','confrontational'] },
+    { name: 'Optimism', formula: 'anticipation + joy', angle: 337.5,
+      adj: ['optimistic','hopeful','upbeat','sanguine','buoyant','bullish'] }
+  ];
+
+  function polar(angleDeg, radius) {
+    const a = (angleDeg - 90) * Math.PI / 180;
+    return [cx + radius * Math.cos(a), cy + radius * Math.sin(a)];
+  }
+
+  function arcPath(r1, r2, startA, endA) {
+    const [x1, y1] = polar(startA, r2);
+    const [x2, y2] = polar(endA, r2);
+    const [x3, y3] = polar(endA, r1);
+    const [x4, y4] = polar(startA, r1);
+    const large = endA - startA > 180 ? 1 : 0;
+    return `M ${x1.toFixed(2)} ${y1.toFixed(2)} ` +
+           `A ${r2} ${r2} 0 ${large} 1 ${x2.toFixed(2)} ${y2.toFixed(2)} ` +
+           `L ${x3.toFixed(2)} ${y3.toFixed(2)} ` +
+           `A ${r1} ${r1} 0 ${large} 0 ${x4.toFixed(2)} ${y4.toFixed(2)} Z`;
+  }
+
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs) {
+    const e = document.createElementNS(SVG_NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+
+  const halfW = [16, 19, 21.5];
+  const petalOuter = r[3];
+  const segStroke = getComputedStyle(document.documentElement).getPropertyValue('--seg-stroke').trim() || '#FAF7F0';
+
+  const segments = [];
+  emotions.forEach((emo, ei) => {
+    const palette = isDark ? emo.d : emo.l;
+    for (let lvl = 2; lvl >= 0; lvl--) {
+      const hw = halfW[lvl];
+      const r1 = r[2 - lvl];
+      const r2 = r[3 - lvl];
+      const path = arcPath(r1, r2, emo.angle - hw, emo.angle + hw);
+      const p = el('path', {
+        d: path,
+        fill: palette[2 - lvl],
+        stroke: segStroke,
+        class: 'seg',
+        'data-emo': ei,
+        'data-lvl': lvl
+      });
+      p.addEventListener('click', () => selectEmotion(ei, lvl));
+      svg.appendChild(p);
+      segments.push(p);
+    }
+    const [lx, ly] = polar(emo.angle, petalOuter + 24);
+    const lbl = el('text', { x: lx, y: ly + 4, class: 'emo-lbl' });
+    lbl.textContent = emo.name;
+    svg.appendChild(lbl);
+  });
+
+  const dyadRects = [];
+  dyads.forEach((dy, di) => {
+    const [dx, dy2] = polar(dy.angle, r[3] + 48);
+    const textW = dy.name.length * 6.8 + 18;
+    const w = Math.max(58, textW);
+    const h = 22;
+    const g = el('g', { class: 'dyad-g', 'data-dyad': di });
+    const rect = el('rect', {
+      x: (dx - w/2).toFixed(2), y: (dy2 - h/2).toFixed(2),
+      width: w, height: h, rx: 11,
+      class: 'dyad-rect'
+    });
+    const txt = el('text', { x: dx.toFixed(2), y: (dy2 + 4).toFixed(2), class: 'dyad-lbl' });
+    txt.textContent = dy.name;
+    g.appendChild(rect);
+    g.appendChild(txt);
+    g.addEventListener('click', () => selectDyad(di));
+    svg.appendChild(g);
+    dyadRects.push(rect);
+  });
+
+  const centerCircle = el('circle', { cx, cy, r: r[0] - 8, class: 'wheel-center-dot' });
+  svg.appendChild(centerCircle);
+  const ct1 = el('text', { x: cx, y: cy - 4, class: 'wheel-center-lbl' });
+  ct1.textContent = 'Plutchik';
+  svg.appendChild(ct1);
+  const ct2 = el('text', { x: cx, y: cy + 12, class: 'wheel-center-lbl' });
+  ct2.textContent = 'wheel';
+  svg.appendChild(ct2);
+
+  function clearSel() {
+    segments.forEach(s => s.classList.remove('sel'));
+    dyadRects.forEach(r => r.classList.remove('sel'));
+  }
+
+  const intensityLabels = ['mild', 'moderate', 'intense'];
+
+  function highlightWord(text, word) {
+    if (!word) return escapeHtml(text);
+    const rx = new RegExp('(' + escapeRegex(word) + ')', 'ig');
+    return escapeHtml(text).replace(rx, '<span class="hl">$1</span>');
+  }
+  function escapeHtml(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function escapeRegex(s) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function selectEmotion(ei, lvl, word) {
+    clearSel();
+    const sel = svg.querySelector(`path[data-emo="${ei}"][data-lvl="${lvl}"]`);
+    if (sel) sel.classList.add('sel');
+    const emo = emotions[ei];
+    const exAdj = emo.ex[lvl].map(w => highlightWord(w, word)).join(', ');
+    const stAdj = emo.st[lvl].map(w => highlightWord(w, word)).join(', ');
+    infoDefault.style.display = 'none';
+    infoContent.style.display = 'block';
+    infoContent.innerHTML = `
+      <div class="wheel-info-head">
+        <div class="wheel-info-name">${emo.name}</div>
+        <div class="wheel-info-tag">${intensityLabels[lvl]} intensity</div>
+      </div>
+      <div class="wheel-info-section">
+        <div class="wheel-info-section-lbl">Experiencer — feeling it</div>
+        <div class="wheel-info-adj">${exAdj}</div>
+      </div>
+      <div class="wheel-info-section">
+        <div class="wheel-info-section-lbl">Stimulus — causing it</div>
+        <div class="wheel-info-adj">${stAdj}</div>
+      </div>`;
+  }
+
+  function selectDyad(di, word) {
+    clearSel();
+    dyadRects[di].classList.add('sel');
+    const dy = dyads[di];
+    const adjHtml = dy.adj.map(w => highlightWord(w, word)).join(', ');
+    infoDefault.style.display = 'none';
+    infoContent.style.display = 'block';
+    infoContent.innerHTML = `
+      <div class="wheel-info-head">
+        <div class="wheel-info-name">${dy.name}</div>
+        <div class="wheel-info-tag">dyad</div>
+      </div>
+      <div class="wheel-info-formula">${dy.formula}</div>
+      <div class="wheel-info-adj">${adjHtml}</div>`;
+  }
+
+  function reset() {
+    clearSel();
+    infoDefault.style.display = 'block';
+    infoContent.style.display = 'none';
+    infoContent.innerHTML = '';
+  }
+
+  function findInWheel(q) {
+    if (!q) return { matches: 0, first: null };
+    const lq = q.toLowerCase();
+    let matches = 0;
+    let first = null;
+    for (let ei = 0; ei < emotions.length; ei++) {
+      const emo = emotions[ei];
+      for (let lvl = 0; lvl < 3; lvl++) {
+        const hits = emo.ex[lvl].filter(w => w.toLowerCase().includes(lq)).length
+                   + emo.st[lvl].filter(w => w.toLowerCase().includes(lq)).length;
+        if (hits > 0) {
+          matches += hits;
+          if (!first) first = { type: 'emotion', ei, lvl };
+        }
+      }
+    }
+    for (let di = 0; di < dyads.length; di++) {
+      const hits = dyads[di].adj.filter(w => w.toLowerCase().includes(lq)).length;
+      if (hits > 0) {
+        matches += hits;
+        if (!first) first = { type: 'dyad', di };
+      }
+    }
+    return { matches, first };
+  }
+
+  window.plutchikWheel = {
+    findAndSelect: function(q) {
+      if (!q) { reset(); return 0; }
+      const { matches, first } = findInWheel(q);
+      if (first && first.type === 'emotion') selectEmotion(first.ei, first.lvl, q);
+      else if (first && first.type === 'dyad') selectDyad(first.di, q);
+      else reset();
+      return matches;
+    },
+    reset
+  };
+})();
+</script>
 
 <script>
 (function () {
@@ -984,9 +1244,10 @@ footer.doc-foot {
   function run() {
     const q = input.value.trim();
     clear.classList.toggle('visible', q.length > 0);
-    let matches = 0;
+    let tableMatches = 0;
     if (!q) {
       cells.forEach((el, i) => { el.textContent = originals[i]; });
+      if (window.plutchikWheel) window.plutchikWheel.reset();
       status.textContent = '';
       return;
     }
@@ -995,18 +1256,28 @@ footer.doc-foot {
       const text = originals[i];
       if (rx.test(text)) {
         rx.lastIndex = 0;
+        const matchCount = (text.match(rx) || []).length;
         el.innerHTML = text.replace(rx, '<span class="hl">$1</span>');
-        matches++;
+        tableMatches += matchCount;
       } else {
         el.textContent = text;
       }
     });
-    status.textContent = matches === 0
-      ? 'No matches.'
-      : matches === 1 ? '1 match.' : matches + ' matches.';
-    if (matches > 0) {
-      const first = document.querySelector('.hl');
+    const wheelMatches = window.plutchikWheel ? window.plutchikWheel.findAndSelect(q) : 0;
+    const total = tableMatches + wheelMatches;
+    if (total === 0) {
+      status.textContent = 'No matches.';
+    } else {
+      const parts = [];
+      if (tableMatches > 0) parts.push(tableMatches + ' in tables');
+      if (wheelMatches > 0) parts.push(wheelMatches + ' in wheel');
+      status.textContent = parts.join(', ') + '.';
+    }
+    if (tableMatches > 0) {
+      const first = document.querySelector('main .hl');
       if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else if (wheelMatches > 0) {
+      document.getElementById('emotions').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 
