@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Compendium of Adjectives</title>
+<style>
+@import url('./assets/fonts/local-fonts.css');
+
+:root {
+  --bg: #FAF7F0;
+  --bg-surface: #FFFFFF;
+  --text: #1C1914;
+  --text-muted: #6E6659;
+  --text-subtle: #9A9184;
+  --border: #E8E2D3;
+  --border-strong: #D3CBB8;
+  --accent: #7A1E2D;
+  --accent-muted: #A34658;
+  --hl: rgba(122, 30, 45, 0.18);
+  --h-def: #A32D2D;
+  --h-mean: #3B6D11;
+  --h-exc: #854F0B;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1B1814;
+    --bg-surface: #252019;
+    --text: #EBE5D2;
+    --text-muted: #A89F8C;
+    --text-subtle: #6E6659;
+    --border: #3A342A;
+    --border-strong: #534A3B;
+    --accent: #E0A2B0;
+    --accent-muted: #C47A88;
+    --hl: rgba(224, 162, 176, 0.22);
+    --h-def: #F09595;
+    --h-mean: #97C459;
+    --h-exc: #EF9F27;
+  }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 2rem; }
+
+body {
+  font-family: 'EB Garamond', Georgia, 'Times New Roman', serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 18px;
+  padding: 2.5rem 1.5rem 5rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--text);
+  color: var(--bg);
+  padding: 0.5rem 1rem;
+  z-index: 100;
+}
+.skip-link:focus { left: 0; }
+
+.page-wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 4rem;
+  align-items: start;
+}
+
+main { min-width: 0; max-width: 820px; }
+
+/* Typography */
+h1, h2, h3 { font-family: 'Fraunces', 'Times New Roman', serif; font-weight: 500; letter-spacing: -0.01em; }
+
+header.doc-head {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+h1 {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  line-height: 1.05;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+  font-variation-settings: "SOFT" 30, "WONK" 0;
+}
+
+.subtitle {
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin-bottom: 1.25rem;
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+}
+
+.preamble {
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 640px;
+  line-height: 1.7;
+}
+
+.preamble p + p { margin-top: 0.8rem; }
+
+h2 {
+  font-size: 1.7rem;
+  margin: 4.5rem 0 0.25rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  line-height: 1.15;
+}
+h2 .num {
+  font-size: 0.85rem;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+}
+
+.section-intro {
+  color: var(--text-muted);
+  margin-bottom: 1.6rem;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  max-width: 680px;
+  font-style: italic;
+}
+
+/* Table of contents */
+aside.toc {
+  position: sticky;
+  top: 2rem;
+  font-size: 0.85rem;
+  font-family: 'Fraunces', serif;
+  border-left: 1px solid var(--border);
+  padding-left: 1.25rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+}
+
+.toc-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+  margin-bottom: 0.9rem;
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+}
+
+.toc ol { list-style: none; counter-reset: toc; }
+.toc li {
+  margin-bottom: 0.55rem;
+  counter-increment: toc;
+  position: relative;
+  padding-left: 1.75rem;
+}
+.toc li::before {
+  content: counter(toc, upper-roman) ".";
+  position: absolute;
+  left: 0;
+  color: var(--text-subtle);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+.toc a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+  line-height: 1.4;
+  display: inline-block;
+}
+.toc a:hover, .toc a:focus { color: var(--accent); }
+
+/* Search */
+.search-wrap {
+  margin: 1.5rem 0 2.5rem;
+  position: relative;
+}
+.search-bar {
+  width: 100%;
+  padding: 0.7rem 2.4rem 0.7rem 1rem;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-surface);
+  border-radius: 3px;
+  font-family: 'EB Garamond', serif;
+  font-size: 1rem;
+  color: var(--text);
+  font-style: italic;
+}
+.search-bar:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--hl);
+}
+.search-bar::placeholder { color: var(--text-subtle); font-style: italic; }
+.search-clear {
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-subtle);
+  cursor: pointer;
+  font-family: 'Fraunces', serif;
+  font-size: 0.85rem;
+  padding: 0.2rem 0.4rem;
+  display: none;
+}
+.search-clear.visible { display: block; }
+.search-status {
+  font-size: 0.8rem;
+  color: var(--text-subtle);
+  margin-top: 0.4rem;
+  font-style: italic;
+  min-height: 1rem;
+}
+
+/* Tables */
+.vtable {
+  display: grid;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+.vtable.cols-4 { grid-template-columns: 160px repeat(3, minmax(0, 1fr)); }
+.vtable.cols-3 { grid-template-columns: 170px repeat(2, minmax(0, 1fr)); }
+
+.vhdr {
+  background: var(--bg);
+  padding: 0.55rem 0.9rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  font-family: 'Fraunces', serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+.vhdr.h-def { color: var(--h-def); }
+.vhdr.h-mean { color: var(--h-mean); }
+.vhdr.h-exc { color: var(--h-exc); }
+
+.vax {
+  background: var(--ax-bg, var(--bg));
+  color: var(--ax-txt, var(--text));
+  padding: 0.85rem 0.95rem;
+}
+.vax .nm {
+  font-weight: 500;
+  font-size: 1rem;
+  font-family: 'Fraunces', serif;
+  line-height: 1.2;
+}
+.vax .sub {
+  color: var(--ax-sub, var(--text-muted));
+  font-size: 0.78rem;
+  font-style: italic;
+  margin-top: 0.2rem;
+  line-height: 1.3;
+}
+
+.vcell {
+  background: var(--bg-surface);
+  padding: 0.85rem 0.95rem;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* Card grid */
+.cardgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.vcard {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.9rem 1.05rem;
+}
+.vcard .formula {
+  font-size: 0.72rem;
+  color: var(--text-subtle);
+  font-style: italic;
+  font-family: 'Fraunces', serif;
+  letter-spacing: 0.02em;
+}
+.vcard .nm {
+  font-weight: 500;
+  font-size: 1.05rem;
+  font-family: 'Fraunces', serif;
+  margin: 0.15rem 0 0.1rem;
+  line-height: 1.2;
+}
+.vcard .sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 0.55rem;
+  font-family: 'Fraunces', serif;
+}
+.vcard .adj {
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+/* Hidden section (filter) */
+.v-hidden { display: none; }
+
+/* Highlight */
+.hl {
+  background: var(--hl);
+  border-radius: 2px;
+  padding: 0 2px;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* Footer */
+footer.doc-foot {
+  margin-top: 5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-subtle);
+  font-size: 0.85rem;
+  font-style: italic;
+  line-height: 1.6;
+  max-width: 680px;
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .page-wrap { grid-template-columns: 1fr; gap: 0; }
+  aside.toc {
+    position: static;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    padding: 2rem 0 0;
+    margin-top: 3rem;
+    max-height: none;
+  }
+  .toc ol { columns: 2; column-gap: 1.5rem; }
+}
+
+@media (max-width: 680px) {
+  body { font-size: 17px; padding: 1.5rem 1rem 3rem; }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.4rem; margin-top: 3.5rem; }
+  .vtable.cols-4 { grid-template-columns: 110px repeat(3, minmax(0, 1fr)); font-size: 0.82rem; }
+  .vtable.cols-3 { grid-template-columns: 120px repeat(2, minmax(0, 1fr)); font-size: 0.85rem; }
+  .vax { padding: 0.6rem 0.65rem; }
+  .vcell { padding: 0.6rem 0.65rem; }
+  .vax .nm { font-size: 0.9rem; }
+  .vax .sub { font-size: 0.7rem; }
+  .toc ol { columns: 1; }
+}
+
+@media (max-width: 480px) {
+  .vtable.cols-4 { grid-template-columns: 90px repeat(3, minmax(0, 1fr)); font-size: 0.76rem; }
+  .vtable.cols-3 { grid-template-columns: 100px repeat(2, minmax(0, 1fr)); font-size: 0.8rem; }
+}
+
+/* Print */
+@media print {
+  body { font-size: 10.5pt; color: black; background: white; padding: 1cm; }
+  aside.toc, .search-wrap, .skip-link { display: none; }
+  .page-wrap { grid-template-columns: 1fr; gap: 0; }
+  h1 { font-size: 22pt; }
+  h2 { font-size: 14pt; page-break-after: avoid; margin-top: 1.5em; }
+  .vtable, .cardgrid { page-break-inside: avoid; break-inside: avoid; }
+  .vcard { break-inside: avoid; }
+  a { color: black; text-decoration: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="page-wrap">
+
+<main id="main">
+
+<header class="doc-head">
+  <h1>A Compendium of Adjectives</h1>
+  <p class="subtitle">Systematic vocabulary, organized by semantic domain</p>
+  <div class="preamble">
+    <p>Adjectives cluster into families. This compendium maps nine of them — emotion, character, aesthetic, epistemic, social, sensory, tonal — into tables that expose internal structure: intensity scales, virtue/vice poles, Aristotelian triads, blended dyads.</p>
+    <p>No claim to exhaustiveness. Boundaries between categories are fuzzy, and many adjectives belong to more than one register. Treat this as scaffolding, not a closed taxonomy.</p>
+  </div>
+  <div class="search-wrap">
+    <input type="search" class="search-bar" id="filter" placeholder="Search for a word…" aria-label="Search adjectives">
+    <button class="search-clear" id="clear" aria-label="Clear search">clear</button>
+    <div class="search-status" id="status"></div>
+  </div>
+</header>
+
+<section id="emotions-experiencer">
+  <h2><span class="num">I</span>Emotion — the experiencer</h2>
+  <p class="section-intro">Adjectives describing the person who <em>feels</em> the emotion, arranged by Plutchik's eight primary emotions and three intensity levels. This is the core register most vocabulary projects target.</p>
+  <div class="vtable cols-4">
+    <div class="vhdr">Emotion</div>
+    <div class="vhdr">Mild</div>
+    <div class="vhdr">Moderate</div>
+    <div class="vhdr">Intense</div>
+
+    <div class="vax" style="--ax-bg: #FAEEDA; --ax-txt: #633806; --ax-sub: #854F0B;">
+      <div class="nm">Joy</div><div class="sub">pleasure, contentment</div>
+    </div>
+    <div class="vcell">content, cheerful, pleased, glad, gratified</div>
+    <div class="vcell">happy, joyful, merry, gleeful, lighthearted</div>
+    <div class="vcell">ecstatic, elated, euphoric, jubilant, rapturous, exultant</div>
+
+    <div class="vax" style="--ax-bg: #E1F5EE; --ax-txt: #085041; --ax-sub: #0F6E56;">
+      <div class="nm">Trust</div><div class="sub">acceptance, confidence</div>
+    </div>
+    <div class="vcell">accepting, receptive, tolerant, amenable</div>
+    <div class="vcell">trusting, confident, assured, reliant</div>
+    <div class="vcell">devoted, reverent, adoring, unwavering</div>
+
+    <div class="vax" style="--ax-bg: #EEEDFE; --ax-txt: #3C3489; --ax-sub: #534AB7;">
+      <div class="nm">Fear</div><div class="sub">apprehension, dread</div>
+    </div>
+    <div class="vcell">uneasy, apprehensive, wary, jittery, skittish</div>
+    <div class="vcell">afraid, scared, anxious, alarmed, fearful</div>
+    <div class="vcell">terrified, petrified, panicked, aghast, horror-stricken</div>
+
+    <div class="vax" style="--ax-bg: #E6F1FB; --ax-txt: #0C447C; --ax-sub: #185FA5;">
+      <div class="nm">Surprise</div><div class="sub">unexpectedness</div>
+    </div>
+    <div class="vcell">curious, intrigued, attentive, struck</div>
+    <div class="vcell">surprised, startled, taken aback, disconcerted</div>
+    <div class="vcell">astonished, astounded, flabbergasted, dumbfounded, stupefied</div>
+
+    <div class="vax" style="--ax-bg: #F1EFE8; --ax-txt: #444441; --ax-sub: #5F5E5A;">
+      <div class="nm">Sadness</div><div class="sub">sorrow, loss</div>
+    </div>
+    <div class="vcell">wistful, pensive, melancholic, subdued, downcast</div>
+    <div class="vcell">sad, sorrowful, gloomy, dejected, forlorn</div>
+    <div class="vcell">desolate, inconsolable, heartbroken, anguished, bereft</div>
+
+    <div class="vax" style="--ax-bg: #EAF3DE; --ax-txt: #27500A; --ax-sub: #3B6D11;">
+      <div class="nm">Disgust</div><div class="sub">aversion, rejection</div>
+    </div>
+    <div class="vcell">displeased, put-off, disapproving, dismissive</div>
+    <div class="vcell">disgusted, revolted, contemptuous, scornful</div>
+    <div class="vcell">repulsed, loathing, nauseated, abhorring</div>
+
+    <div class="vax" style="--ax-bg: #FCEBEB; --ax-txt: #791F1F; --ax-sub: #A32D2D;">
+      <div class="nm">Anger</div><div class="sub">frustration, aggression</div>
+    </div>
+    <div class="vcell">annoyed, irritated, peeved, vexed, miffed</div>
+    <div class="vcell">angry, indignant, incensed, resentful, aggrieved</div>
+    <div class="vcell">furious, livid, enraged, irate, apoplectic, wrathful</div>
+
+    <div class="vax" style="--ax-bg: #FAECE7; --ax-txt: #712B13; --ax-sub: #993C1D;">
+      <div class="nm">Anticipation</div><div class="sub">expectation, interest</div>
+    </div>
+    <div class="vcell">mindful, alert, watchful, engaged</div>
+    <div class="vcell">eager, expectant, hopeful, keen</div>
+    <div class="vcell">avid, zealous, fervent, impatient, rapt</div>
+  </div>
+</section>
+
+<section id="emotions-stimulus">
+  <h2><span class="num">II</span>Emotion — the stimulus</h2>
+  <p class="section-intro">The same eight emotions, flipped to describe what <em>causes</em> the feeling rather than what feels it. For every "afraid," a "terrifying" — and the intensity scale carries across.</p>
+  <div class="vtable cols-4">
+    <div class="vhdr">Causes…</div>
+    <div class="vhdr">Mild</div>
+    <div class="vhdr">Moderate</div>
+    <div class="vhdr">Intense</div>
+
+    <div class="vax" style="--ax-bg: #FAEEDA; --ax-txt: #633806; --ax-sub: #854F0B;">
+      <div class="nm">Joy</div><div class="sub">pleasing</div>
+    </div>
+    <div class="vcell">pleasant, agreeable, nice, enjoyable</div>
+    <div class="vcell">delightful, heartwarming, uplifting, gratifying</div>
+    <div class="vcell">exhilarating, blissful, sublime, intoxicating</div>
+
+    <div class="vax" style="--ax-bg: #E1F5EE; --ax-txt: #085041; --ax-sub: #0F6E56;">
+      <div class="nm">Trust</div><div class="sub">trust-inspiring</div>
+    </div>
+    <div class="vcell">credible, plausible, sound, fair</div>
+    <div class="vcell">trustworthy, dependable, solid, reliable</div>
+    <div class="vcell">unimpeachable, inviolable, sacrosanct</div>
+
+    <div class="vax" style="--ax-bg: #EEEDFE; --ax-txt: #3C3489; --ax-sub: #534AB7;">
+      <div class="nm">Fear</div><div class="sub">fear-inducing</div>
+    </div>
+    <div class="vcell">unsettling, disquieting, worrying, troubling</div>
+    <div class="vcell">frightening, alarming, menacing, foreboding</div>
+    <div class="vcell">terrifying, horrifying, bloodcurdling, harrowing</div>
+
+    <div class="vax" style="--ax-bg: #E6F1FB; --ax-txt: #0C447C; --ax-sub: #185FA5;">
+      <div class="nm">Surprise</div><div class="sub">surprise-inducing</div>
+    </div>
+    <div class="vcell">unexpected, curious, peculiar, odd</div>
+    <div class="vcell">striking, startling, remarkable, arresting</div>
+    <div class="vcell">astonishing, staggering, mind-boggling, jaw-dropping</div>
+
+    <div class="vax" style="--ax-bg: #F1EFE8; --ax-txt: #444441; --ax-sub: #5F5E5A;">
+      <div class="nm">Sadness</div><div class="sub">sadness-inducing</div>
+    </div>
+    <div class="vcell">poignant, bittersweet, wistful, plaintive</div>
+    <div class="vcell">sorrowful, mournful, doleful, dismal, sombre</div>
+    <div class="vcell">heartbreaking, tragic, devastating, gut-wrenching</div>
+
+    <div class="vax" style="--ax-bg: #EAF3DE; --ax-txt: #27500A; --ax-sub: #3B6D11;">
+      <div class="nm">Disgust</div><div class="sub">disgust-inducing</div>
+    </div>
+    <div class="vcell">unpleasant, off-putting, distasteful, unsavoury</div>
+    <div class="vcell">disgusting, revolting, repellent, sickening</div>
+    <div class="vcell">repulsive, nauseating, loathsome, abhorrent, vile</div>
+
+    <div class="vax" style="--ax-bg: #FCEBEB; --ax-txt: #791F1F; --ax-sub: #A32D2D;">
+      <div class="nm">Anger</div><div class="sub">anger-inducing</div>
+    </div>
+    <div class="vcell">annoying, irksome, vexatious, bothersome</div>
+    <div class="vcell">infuriating, maddening, exasperating, galling</div>
+    <div class="vcell">outrageous, incendiary, inflammatory, egregious</div>
+
+    <div class="vax" style="--ax-bg: #FAECE7; --ax-txt: #712B13; --ax-sub: #993C1D;">
+      <div class="nm">Anticipation</div><div class="sub">interest-inducing</div>
+    </div>
+    <div class="vcell">intriguing, promising, curious, compelling</div>
+    <div class="vcell">enticing, tantalizing, alluring, tempting</div>
+    <div class="vcell">irresistible, electrifying, thrilling, riveting</div>
+  </div>
+</section>
+
+<section id="dyads">
+  <h2><span class="num">III</span>Emotion — the dyads</h2>
+  <p class="section-intro">Blends of two adjacent primary emotions. Joy plus trust makes love; fear plus surprise makes awe; disgust plus anger makes contempt. These are where the compound vocabulary lives.</p>
+  <div class="cardgrid">
+    <div class="vcard">
+      <div class="formula">joy + trust</div>
+      <div class="nm">Love</div>
+      <div class="adj">loving, affectionate, tender, fond, smitten, besotted, enamored, devoted, adoring</div>
+    </div>
+    <div class="vcard">
+      <div class="formula">trust + fear</div>
+      <div class="nm">Submission</div>
+      <div class="adj">submissive, deferential, meek, compliant, obedient, yielding, acquiescent</div>
+    </div>
+    <div class="vcard">
+      <div class="formula">fear + surprise</div>
+      <div class="nm">Awe</div>
+      <div class="adj">awestruck, reverent, spellbound, dumbstruck, overwhelmed, humbled</div>
+    </div>
+    <div class="vcard">
+      <div class="formula">surprise + sadness</div>
+      <div class="nm">Disapproval</div>
+      <div class="adj">disillusioned, disappointed, let-down, crestfallen, dismayed, disheartened</div>
+    </div>
+    <div class="vcard">
+      <div class="formula">sadness + disgust</div>
+      <div class="nm">Remorse</div>
+      <div class="adj">remorseful, rueful, regretful, contrite, penitent, guilt-ridden, ashamed</div>
+    </div>
+    <div class="vcard">
+      <div class="formula">disgust + anger</div>
+      <div class="nm">Contempt</div>
+      <div class="adj">contemptuous, disdainful, scornful, derisive, sneering, supercilious</div>
+    </div>
+    <div class="vcard">
+      <div class="formula">anger + anticipation</div>
+      <div class="nm">Aggressiveness</div>
+      <div class="adj">assertive, pugnacious, combative, belligerent, defiant, confrontational</div>
+    </div>
+    <div class="vcard">
+      <div class="formula">anticipation + joy</div>
+      <div class="nm">Optimism</div>
+      <div class="adj">optimistic, hopeful, upbeat, sanguine, buoyant, bullish</div>
+    </div>
+  </div>
+</section>
+
+<section id="character">
+  <h2><span class="num">IV</span>Character — the Aristotelian triad</h2>
+  <p class="section-intro">Stable dispositions, not passing states. Arranged as Aristotelian triads: deficiency and excess are both vices, with the virtue holding the middle. For some axes, the excess form is culturally specific to English; treat those cells lightly.</p>
+  <div class="vtable cols-4">
+    <div class="vhdr">Axis</div>
+    <div class="vhdr h-def">Deficiency</div>
+    <div class="vhdr h-mean">Mean (virtue)</div>
+    <div class="vhdr h-exc">Excess</div>
+
+    <div class="vax" style="--ax-bg: #FCEBEB; --ax-txt: #791F1F; --ax-sub: #A32D2D;">
+      <div class="nm">Courage</div><div class="sub">facing danger</div>
+    </div>
+    <div class="vcell">cowardly, timid, craven, faint-hearted, spineless</div>
+    <div class="vcell">brave, bold, valiant, intrepid, gallant, stouthearted</div>
+    <div class="vcell">reckless, foolhardy, rash, headstrong, daredevil</div>
+
+    <div class="vax" style="--ax-bg: #E1F5EE; --ax-txt: #085041; --ax-sub: #0F6E56;">
+      <div class="nm">Honesty</div><div class="sub">truthfulness</div>
+    </div>
+    <div class="vcell">deceitful, duplicitous, mendacious, two-faced, devious</div>
+    <div class="vcell">honest, truthful, frank, candid, sincere, genuine</div>
+    <div class="vcell">blunt, tactless, indiscreet, unfiltered, gauche</div>
+
+    <div class="vax" style="--ax-bg: #EEEDFE; --ax-txt: #3C3489; --ax-sub: #534AB7;">
+      <div class="nm">Integrity</div><div class="sub">ethical consistency</div>
+    </div>
+    <div class="vcell">unscrupulous, corrupt, amoral, mercenary, compromised</div>
+    <div class="vcell">principled, scrupulous, ethical, upright, incorruptible</div>
+    <div class="vcell">self-righteous, puritanical, sanctimonious, priggish</div>
+
+    <div class="vax" style="--ax-bg: #FAEEDA; --ax-txt: #633806; --ax-sub: #854F0B;">
+      <div class="nm">Generosity</div><div class="sub">giving of means</div>
+    </div>
+    <div class="vcell">stingy, miserly, tight-fisted, parsimonious, mean</div>
+    <div class="vcell">generous, magnanimous, open-handed, munificent, bountiful</div>
+    <div class="vcell">profligate, prodigal, spendthrift, extravagant, wasteful</div>
+
+    <div class="vax" style="--ax-bg: #FAECE7; --ax-txt: #712B13; --ax-sub: #993C1D;">
+      <div class="nm">Humility</div><div class="sub">view of self-worth</div>
+    </div>
+    <div class="vcell">arrogant, haughty, conceited, vainglorious, pompous</div>
+    <div class="vcell">humble, modest, unassuming, self-effacing, unpretentious</div>
+    <div class="vcell">self-abasing, obsequious, servile, unctuous, grovelling</div>
+
+    <div class="vax" style="--ax-bg: #EAF3DE; --ax-txt: #27500A; --ax-sub: #3B6D11;">
+      <div class="nm">Diligence</div><div class="sub">effort in work</div>
+    </div>
+    <div class="vcell">lazy, indolent, slothful, shiftless, lackadaisical</div>
+    <div class="vcell">industrious, diligent, assiduous, conscientious, tireless</div>
+    <div class="vcell">obsessive, workaholic, compulsive, perfectionist, joyless</div>
+
+    <div class="vax" style="--ax-bg: #E6F1FB; --ax-txt: #0C447C; --ax-sub: #185FA5;">
+      <div class="nm">Self-control</div><div class="sub">impulse regulation</div>
+    </div>
+    <div class="vcell">impulsive, rash, impetuous, volatile, mercurial</div>
+    <div class="vcell">composed, disciplined, self-possessed, steady, measured</div>
+    <div class="vcell">repressed, rigid, inhibited, guarded, buttoned-up</div>
+
+    <div class="vax" style="--ax-bg: #F1EFE8; --ax-txt: #444441; --ax-sub: #5F5E5A;">
+      <div class="nm">Open-mindedness</div><div class="sub">receptivity to views</div>
+    </div>
+    <div class="vcell">dogmatic, rigid, narrow-minded, hidebound, intransigent</div>
+    <div class="vcell">open-minded, receptive, flexible, broad-minded, tolerant</div>
+    <div class="vcell">credulous, gullible, indiscriminate, wishy-washy, uncritical</div>
+
+    <div class="vax" style="--ax-bg: #FAEEDA; --ax-txt: #633806; --ax-sub: #854F0B;">
+      <div class="nm">Intellect</div><div class="sub">acuity</div>
+    </div>
+    <div class="vcell">obtuse, dim, dense, dull, slow-witted</div>
+    <div class="vcell">astute, shrewd, perceptive, discerning, sagacious</div>
+    <div class="vcell">pedantic, hair-splitting, sophistic, over-cerebral, donnish</div>
+
+    <div class="vax" style="--ax-bg: #FCEBEB; --ax-txt: #791F1F; --ax-sub: #A32D2D;">
+      <div class="nm">Warmth</div><div class="sub">interpersonal affect</div>
+    </div>
+    <div class="vcell">cold, aloof, distant, standoffish, frosty</div>
+    <div class="vcell">warm, affable, gracious, cordial, genial</div>
+    <div class="vcell">cloying, smothering, effusive, gushing, saccharine</div>
+
+    <div class="vax" style="--ax-bg: #E1F5EE; --ax-txt: #085041; --ax-sub: #0F6E56;">
+      <div class="nm">Loyalty</div><div class="sub">steadfastness</div>
+    </div>
+    <div class="vcell">fickle, disloyal, treacherous, perfidious, faithless</div>
+    <div class="vcell">loyal, faithful, steadfast, devoted, staunch</div>
+    <div class="vcell">slavish, sycophantic, subservient, blindly-loyal, fawning</div>
+
+    <div class="vax" style="--ax-bg: #EEEDFE; --ax-txt: #3C3489; --ax-sub: #534AB7;">
+      <div class="nm">Temperament</div><div class="sub">everyday disposition</div>
+    </div>
+    <div class="vcell">sullen, surly, morose, petulant, truculent</div>
+    <div class="vcell">cheerful, good-natured, jovial, equable, even-tempered</div>
+    <div class="vcell">giddy, manic, frenetic, over-exuberant, effervescent</div>
+  </div>
+</section>
+
+<section id="aesthetic">
+  <h2><span class="num">V</span>Aesthetic register</h2>
+  <p class="section-intro">Style, taste, sensibility. These don't pair into clean opposites — minimalism and ornateness are poles, but <em>kitsch</em> has no opposite — so they're arranged as a grid of moods rather than a spectrum.</p>
+  <div class="cardgrid">
+    <div class="vcard">
+      <div class="nm">Elegant / refined</div>
+      <div class="sub">poise and polish</div>
+      <div class="adj">elegant, graceful, polished, poised, tasteful, dignified, urbane, chic</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Minimal / austere</div>
+      <div class="sub">beauty of restraint</div>
+      <div class="adj">austere, spare, stark, minimalist, unadorned, clean, pared-back, essential</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Ornate / lavish</div>
+      <div class="sub">beauty of abundance</div>
+      <div class="adj">ornate, elaborate, baroque, rococo, florid, sumptuous, opulent, lavish</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Grand / imposing</div>
+      <div class="sub">scale and majesty</div>
+      <div class="adj">majestic, monumental, stately, imposing, regal, magnificent, grandiose, awe-inspiring</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Beautiful / lovely</div>
+      <div class="sub">pure aesthetic pleasure</div>
+      <div class="adj">beautiful, lovely, exquisite, gorgeous, stunning, radiant, resplendent, sublime</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Ugly / grotesque</div>
+      <div class="sub">aesthetic displeasure</div>
+      <div class="adj">ugly, hideous, unsightly, repellent, monstrous, grotesque, malformed</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Kitsch / tacky</div>
+      <div class="sub">failed taste</div>
+      <div class="adj">kitsch, tacky, gaudy, garish, tawdry, schlocky, cheesy, cheap, twee</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Quaint / charming</div>
+      <div class="sub">small-scale appeal</div>
+      <div class="adj">quaint, charming, picturesque, cozy, homey, rustic, idyllic, pastoral</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Bold / avant-garde</div>
+      <div class="sub">deliberate disruption</div>
+      <div class="adj">bold, daring, radical, provocative, edgy, avant-garde, unconventional, striking</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Strange / uncanny</div>
+      <div class="sub">aesthetic unease</div>
+      <div class="adj">bizarre, eerie, uncanny, surreal, macabre, gothic, otherworldly, haunting</div>
+    </div>
+  </div>
+</section>
+
+<section id="epistemic">
+  <h2><span class="num">VI</span>Epistemic stance</h2>
+  <p class="section-intro">How a person holds beliefs — their posture toward evidence, certainty, and inquiry. Several of these axes are genuinely Aristotelian (skepticism balanced between credulity and cynicism) but the binary form is more commonly how they're invoked.</p>
+  <div class="vtable cols-3">
+    <div class="vhdr">Axis</div>
+    <div class="vhdr">One pole</div>
+    <div class="vhdr">Other pole</div>
+
+    <div class="vax"><div class="nm">Conviction</div><div class="sub">belief firmness</div></div>
+    <div class="vcell">adamant, dogmatic, certain, resolute, unwavering</div>
+    <div class="vcell">doubtful, hesitant, tentative, agnostic, uncommitted</div>
+
+    <div class="vax"><div class="nm">Skepticism</div><div class="sub">evidence-weighing</div></div>
+    <div class="vcell">credulous, gullible, naive, trusting, uncritical</div>
+    <div class="vcell">skeptical, critical, incredulous, doubting, cynical</div>
+
+    <div class="vax"><div class="nm">Curiosity</div><div class="sub">drive to inquire</div></div>
+    <div class="vcell">inquisitive, curious, probing, inquiring, searching</div>
+    <div class="vcell">incurious, indifferent, apathetic, uninterested, blasé</div>
+
+    <div class="vax"><div class="nm">Rigor</div><div class="sub">care in method</div></div>
+    <div class="vcell">rigorous, exacting, meticulous, methodical, scrupulous</div>
+    <div class="vcell">sloppy, cavalier, slipshod, slapdash, lax</div>
+
+    <div class="vax"><div class="nm">Depth</div><div class="sub">penetration of thought</div></div>
+    <div class="vcell">profound, penetrating, searching, incisive, thoroughgoing</div>
+    <div class="vcell">superficial, shallow, facile, glib, cursory</div>
+
+    <div class="vax"><div class="nm">Clarity</div><div class="sub">intelligibility</div></div>
+    <div class="vcell">lucid, perspicuous, clear, limpid, articulate</div>
+    <div class="vcell">muddled, obscure, opaque, turbid, confused</div>
+
+    <div class="vax"><div class="nm">Conformity</div><div class="sub">relation to orthodoxy</div></div>
+    <div class="vcell">orthodox, conventional, doctrinaire, conformist, mainstream</div>
+    <div class="vcell">heterodox, heretical, iconoclastic, unorthodox, independent-minded</div>
+
+    <div class="vax"><div class="nm">Decisiveness</div><div class="sub">resolve to act</div></div>
+    <div class="vcell">decisive, resolute, determined, firm, unhesitating</div>
+    <div class="vcell">vacillating, wavering, irresolute, indecisive, dithering</div>
+  </div>
+</section>
+
+<section id="social">
+  <h2><span class="num">VII</span>Social register</h2>
+  <p class="section-intro">Markers of sophistication, manner, and cultural polish. These carry class and cultural weight — the adjectives exist and describe real social phenomena, but the poles aren't always morally weighted the way virtues are.</p>
+  <div class="vtable cols-3">
+    <div class="vhdr">Axis</div>
+    <div class="vhdr">One pole</div>
+    <div class="vhdr">Other pole</div>
+
+    <div class="vax"><div class="nm">Sophistication</div><div class="sub">breadth of world</div></div>
+    <div class="vcell">urbane, cosmopolitan, worldly, sophisticated, well-travelled</div>
+    <div class="vcell">provincial, parochial, insular, unworldly, bumpkin</div>
+
+    <div class="vax"><div class="nm">Polish</div><div class="sub">surface refinement</div></div>
+    <div class="vcell">polished, cultured, refined, cultivated, genteel</div>
+    <div class="vcell">unpolished, uncouth, rough, raw, coarse</div>
+
+    <div class="vax"><div class="nm">Manner</div><div class="sub">social grace</div></div>
+    <div class="vcell">gracious, courtly, debonair, suave, mannerly</div>
+    <div class="vcell">boorish, churlish, oafish, loutish, ill-mannered</div>
+
+    <div class="vax"><div class="nm">Education</div><div class="sub">learning</div></div>
+    <div class="vcell">erudite, learned, scholarly, well-read, cultivated</div>
+    <div class="vcell">unlettered, uneducated, unschooled, ignorant, benighted</div>
+
+    <div class="vax"><div class="nm">Fashion</div><div class="sub">awareness of style</div></div>
+    <div class="vcell">chic, stylish, fashionable, à la mode, modish</div>
+    <div class="vcell">dowdy, frumpy, dated, unfashionable, passé</div>
+
+    <div class="vax"><div class="nm">Etiquette</div><div class="sub">observance of form</div></div>
+    <div class="vcell">decorous, proper, seemly, gracious, mannerly</div>
+    <div class="vcell">improper, unseemly, indecorous, gauche, tactless</div>
+
+    <div class="vax"><div class="nm">Poise</div><div class="sub">self-presentation</div></div>
+    <div class="vcell">poised, self-assured, composed, graceful, unruffled</div>
+    <div class="vcell">awkward, gauche, stiff, ill-at-ease, flustered</div>
+
+    <div class="vax"><div class="nm">Class signal</div><div class="sub">perceived social stratum</div></div>
+    <div class="vcell">patrician, aristocratic, genteel, distinguished, highborn</div>
+    <div class="vcell">plebeian, common, lowbrow, vulgar, lumpen</div>
+  </div>
+</section>
+
+<section id="sensory">
+  <h2><span class="num">VIII</span>Physical and sensory</h2>
+  <p class="section-intro">The tactile world: brightness, volume, texture, temperature. These are mostly neutral-descriptive — no moral valence — but they carry the evocative weight a writer needs to make a scene feel real.</p>
+  <div class="vtable cols-3">
+    <div class="vhdr">Axis</div>
+    <div class="vhdr">One pole</div>
+    <div class="vhdr">Other pole</div>
+
+    <div class="vax"><div class="nm">Brightness</div><div class="sub">luminosity</div></div>
+    <div class="vcell">luminous, radiant, gleaming, dazzling, incandescent</div>
+    <div class="vcell">dim, murky, gloomy, shadowy, lightless</div>
+
+    <div class="vax"><div class="nm">Color intensity</div><div class="sub">chromatic strength</div></div>
+    <div class="vcell">vivid, vibrant, saturated, brilliant, resplendent</div>
+    <div class="vcell">muted, pallid, washed-out, faded, drab</div>
+
+    <div class="vax"><div class="nm">Volume</div><div class="sub">sound loudness</div></div>
+    <div class="vcell">booming, thunderous, resounding, deafening, stentorian</div>
+    <div class="vcell">hushed, faint, inaudible, muffled, whispered</div>
+
+    <div class="vax"><div class="nm">Sound quality</div><div class="sub">timbre</div></div>
+    <div class="vcell">dulcet, mellifluous, sonorous, lilting, melodic</div>
+    <div class="vcell">shrill, strident, raucous, grating, cacophonous</div>
+
+    <div class="vax"><div class="nm">Texture</div><div class="sub">surface feel</div></div>
+    <div class="vcell">silky, velvety, sleek, satiny, smooth</div>
+    <div class="vcell">coarse, gritty, scratchy, abrasive, jagged</div>
+
+    <div class="vax"><div class="nm">Hardness</div><div class="sub">resistance to deform</div></div>
+    <div class="vcell">rigid, firm, unyielding, adamantine, ironclad</div>
+    <div class="vcell">pliable, supple, yielding, malleable, pliant</div>
+
+    <div class="vax"><div class="nm">Temperature</div><div class="sub">heat</div></div>
+    <div class="vcell">scorching, torrid, sweltering, blistering, searing</div>
+    <div class="vcell">frigid, glacial, arctic, icy, freezing</div>
+
+    <div class="vax"><div class="nm">Taste</div><div class="sub">palate</div></div>
+    <div class="vcell">saccharine, succulent, luscious, ambrosial, savoury</div>
+    <div class="vcell">acrid, bitter, astringent, sour, rancid</div>
+
+    <div class="vax"><div class="nm">Smell</div><div class="sub">olfaction</div></div>
+    <div class="vcell">fragrant, aromatic, redolent, perfumed, pungent</div>
+    <div class="vcell">fetid, rank, malodorous, noisome, putrid</div>
+
+    <div class="vax"><div class="nm">Weight</div><div class="sub">heaviness</div></div>
+    <div class="vcell">leaden, ponderous, weighty, hefty, substantial</div>
+    <div class="vcell">airy, gossamer, featherlight, buoyant, ethereal</div>
+
+    <div class="vax"><div class="nm">Size</div><div class="sub">scale</div></div>
+    <div class="vcell">colossal, mammoth, cavernous, immense, gargantuan</div>
+    <div class="vcell">minute, diminutive, negligible, infinitesimal, pint-sized</div>
+
+    <div class="vax"><div class="nm">Moisture</div><div class="sub">water content</div></div>
+    <div class="vcell">sodden, drenched, saturated, dripping, waterlogged</div>
+    <div class="vcell">arid, parched, desiccated, bone-dry, dehydrated</div>
+  </div>
+</section>
+
+<section id="tonal">
+  <h2><span class="num">IX</span>Tonal and dramatic</h2>
+  <p class="section-intro">Adjectives describing <em>situations and narratives</em> rather than things or people. This is how writers describe the shape of events — tragic, farcical, ominous, sublime. Bridges into aesthetic territory at the <em>sublime</em> / <em>epic</em> end.</p>
+  <div class="cardgrid">
+    <div class="vcard">
+      <div class="nm">Tragic</div>
+      <div class="sub">downfall and loss</div>
+      <div class="adj">tragic, heart-rending, devastating, catastrophic, cataclysmic, mournful, woeful</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Comic</div>
+      <div class="sub">provoking laughter</div>
+      <div class="adj">comic, hilarious, uproarious, humorous, witty, droll, waggish</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Ironic</div>
+      <div class="sub">meaning at an angle</div>
+      <div class="adj">ironic, wry, sardonic, satirical, sarcastic, tongue-in-cheek, mordant</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Absurd</div>
+      <div class="sub">defying sense</div>
+      <div class="adj">absurd, ludicrous, preposterous, farcical, surreal, nonsensical, zany</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Poignant</div>
+      <div class="sub">tender sadness</div>
+      <div class="adj">poignant, bittersweet, touching, moving, affecting, heartfelt, tender</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Melodramatic</div>
+      <div class="sub">overwrought emotion</div>
+      <div class="adj">melodramatic, overwrought, theatrical, histrionic, maudlin, mawkish, saccharine</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Sublime</div>
+      <div class="sub">transcendent awe</div>
+      <div class="adj">sublime, transcendent, exalted, lofty, elevated, ineffable, numinous</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Epic</div>
+      <div class="sub">heroic scale</div>
+      <div class="adj">epic, heroic, grand, sweeping, monumental, mythic, legendary</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Quotidian</div>
+      <div class="sub">ordinary, everyday</div>
+      <div class="adj">quotidian, mundane, prosaic, banal, humdrum, pedestrian, workaday</div>
+    </div>
+    <div class="vcard">
+      <div class="nm">Ominous</div>
+      <div class="sub">foreshadowing ill</div>
+      <div class="adj">ominous, foreboding, menacing, portentous, sinister, grim, baleful</div>
+    </div>
+  </div>
+</section>
+
+<footer class="doc-foot">
+  <p>Nine tables. Roughly 900 adjectives. Boundaries are fuzzy by design — <em>warm</em> belongs to emotion and character; <em>sublime</em> bridges aesthetic and tonal; <em>gauche</em> shows up in three registers. The overlaps are features of the vocabulary, not defects of the taxonomy.</p>
+</footer>
+
+</main>
+
+<aside class="toc" aria-label="Table of contents">
+  <div class="toc-label">Contents</div>
+  <ol>
+    <li><a href="#emotions-experiencer">Emotion — the experiencer</a></li>
+    <li><a href="#emotions-stimulus">Emotion — the stimulus</a></li>
+    <li><a href="#dyads">Emotion — the dyads</a></li>
+    <li><a href="#character">Character — the Aristotelian triad</a></li>
+    <li><a href="#aesthetic">Aesthetic register</a></li>
+    <li><a href="#epistemic">Epistemic stance</a></li>
+    <li><a href="#social">Social register</a></li>
+    <li><a href="#sensory">Physical and sensory</a></li>
+    <li><a href="#tonal">Tonal and dramatic</a></li>
+  </ol>
+</aside>
+
+</div>
+
+<script>
+(function () {
+  const input = document.getElementById('filter');
+  const clear = document.getElementById('clear');
+  const status = document.getElementById('status');
+  const cells = Array.from(document.querySelectorAll('.vcell, .adj'));
+  const originals = cells.map(el => el.textContent);
+
+  function escapeRegex(s) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function run() {
+    const q = input.value.trim();
+    clear.classList.toggle('visible', q.length > 0);
+    let matches = 0;
+    if (!q) {
+      cells.forEach((el, i) => { el.textContent = originals[i]; });
+      status.textContent = '';
+      return;
+    }
+    const rx = new RegExp('(' + escapeRegex(q) + ')', 'ig');
+    cells.forEach((el, i) => {
+      const text = originals[i];
+      if (rx.test(text)) {
+        rx.lastIndex = 0;
+        el.innerHTML = text.replace(rx, '<span class="hl">$1</span>');
+        matches++;
+      } else {
+        el.textContent = text;
+      }
+    });
+    status.textContent = matches === 0
+      ? 'No matches.'
+      : matches === 1 ? '1 match.' : matches + ' matches.';
+    if (matches > 0) {
+      const first = document.querySelector('.hl');
+      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  input.addEventListener('input', run);
+  clear.addEventListener('click', function () {
+    input.value = '';
+    run();
+    input.focus();
+  });
+})();
+</script>
+
+</body>
+</html>
